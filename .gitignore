@@ -1,0 +1,8 @@
+
+# Datos crudos scrapeados (grandes, contienen información personal)
+Dataset/
+.env
+.venv/
+__pycache__/
+reportes/
+runs.log.csv

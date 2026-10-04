@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- sna:auto:head:start -->
+    <title>Puentes de Primavera: la conversación en X sobre la nota de La Hora</title>
+    <script>
+        (function() {
+            var password = prompt("Por favor, introduce la contraseña de acceso:");
+            while (password !== "miciv-536fdf") {
+                if (password === null) {
+                    document.documentElement.innerHTML = "<h1 style='text-align: center; margin-top: 30vh; font-family: sans-serif; color: #e74c3c;'>Acceso Denegado</h1>";
+                    if (window.stop) window.stop();
+                    throw new Error("Acceso cancelado.");
+                }
+                password = prompt("Contraseña incorrecta. Por favor, introduce la contraseña correcta:");
+            }
+        })();
+    </script>
+<!-- sna:auto:head:end -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+<style>
+.mini-table{width:100%;border-collapse:collapse;font-size:.8rem;margin:.6rem 0}
+.mini-table th,.mini-table td{text-align:left;padding:.2rem .4rem;border-bottom:1px solid rgba(127,127,127,.25)}
+.step-card .nota{font-size:.75rem;opacity:.75}
+</style>
+</head>
+<body>
+    <div id="scrolly-container">
+
+        <div id="graphic">
+            <canvas id="network-canvas"></canvas>
+            <div id="legend-overlay">
+                <!-- sna:auto:legend:start -->
+    <div class="legend-item"><span class="dot organic-dot"></span> Orgánico (88.62%)</div>
+    <div class="legend-item"><span class="dot inorganic-dot"></span> Inorgánico (11.38%)</div>
+    <div class="legend-item"><span class="dot medio-dot"></span> Medio de comunicación</div>
+    <div class="legend-item" id="zoom-hint">Desplázate para comenzar la historia</div>
+<!-- sna:auto:legend:end -->
+            </div>
+            <div id="tooltip"></div>
+        </div>
+
+        <div id="scroll-text">
+            <!-- sna:auto:steps:start -->
+<section class="step active" data-step="0" data-step-type="intro" data-hint="Desplázate hacia abajo para ver el desglose">
+    <div class="step-card">
+        <div class="meta-tag">Análisis SNA MICIV – Puentes de Primavera</div>
+        <!-- sna:auto:stats key=__intro__ start -->
+        <h1>Puentes de Primavera: la conversación en X sobre la nota de La Hora</h1>
+        <div class="stats-grid">
+            <div class="stat-box"><span class="stat-number">10,413</span><span class="stat-label">Nodos (cuentas)</span></div>
+            <div class="stat-box"><span class="stat-number">14,634</span><span class="stat-label">Relaciones</span></div>
+        </div>
+        <!-- sna:auto:stats key=__intro__ end -->
+        <!-- sna:auto:prose key=__intro__ start -->
+        <p>El 3 de octubre, La Hora publicó «Puentes de Primavera sobrevalorados: así se aumentaron los costos y se cambiaron las bases de la licitación». La nota señala sobrecostos en puentes de la DGC y sitúa los cambios en la cúpula del MICIVI, con mención de Gilberto Guerra, principal asesor de la ministra Norma Zea.</p>
+        <p>Este análisis sigue seis publicaciones en X: dos de @lahoragt y cuatro de cuentas que la citaron o la ampliaron (@DarwinHK, @mmendoza_GT, @RMendezRuiz y @VicenteCarrera_). Se recogieron 35 respuestas y 21 citas de 45 cuentas, y la red de seguidores de cada una. La conversación es pequeña: la red refleja quiénes rodean a esas 45 cuentas, no el alcance total de la nota.</p>
+        <!-- sna:auto:prose key=__intro__ end -->
+    </div>
+</section>
+
+<section class="step" data-step="1" data-step-type="bot_intro" data-hint="Rojo: cuentas inorgánicas | Azul: cuentas orgánicas">
+    <div class="step-card">
+        <div class="meta-tag">Autenticidad</div>
+        <!-- sna:auto:stats key=__bot_intro__ start -->
+        <h2>Tráfico orgánico vs. amplificación inorgánica</h2>
+        <ul>
+            <li><strong class="organic-text">Comportamiento orgánico:</strong> 9,228 cuentas (88.62%)</li>
+            <li><strong class="inorganic-text">Comportamiento inorgánico:</strong> 1,185 cuentas (11.38%)</li>
+        </ul>
+        <!-- sna:auto:stats key=__bot_intro__ end -->
+        <!-- sna:auto:prose key=__bot_intro__ start -->
+        <p>Una cuenta se marca como inorgánica si sigue a muchas más cuentas de las que la siguen (más de 500 seguidos y diez veces más seguidos que seguidores) o si interactúa mucho sin recibir interacción. Es un criterio de comportamiento, no una prueba de automatización, y se aplicó igual que en el análisis de la USAC.</p>
+        <p>Casi todas las cuentas marcadas están en la periferia: son seguidores de los participantes, no autores de mensajes. Solo 1 de las 45 cuentas que escribieron cumple el criterio.</p>
+        <!-- sna:auto:prose key=__bot_intro__ end -->
+    </div>
+</section>
+
+<section class="step" data-step="2" data-step-type="narrative" data-cluster="Medios" data-hint="Enfoque: Medios de comunicación">
+    <div class="step-card">
+        <div class="meta-tag">Clúster aparte</div>
+        <!-- sna:auto:stats key=Medios start -->
+        <div class="meta-tag">Clúster aparte</div>
+        <h2>Medios de comunicación</h2>
+        <div class="wordcloud-container">
+            <img src="visuals/wc_Medios.png" alt="Nube de palabras: Medios de comunicación" class="wc-image">
+        </div>
+        <div class="cluster-stats">
+            <p><strong>Cuentas en este grupo:</strong> 11</p>
+            <h3>Cuentas más activas:</h3>
+            <div class="actor-badges" id="actors-medios"></div>
+        </div>
+        <!-- sna:auto:stats key=Medios end -->
+        <!-- sna:auto:prose key=Medios start -->
+        <p>@lahoragt es el único medio que publicó en el núcleo de esta conversación. Su tuit principal recibió 4 respuestas y 10 citas en X. El tuit de seguimiento (#LHPuentesdePrimavera, sobre los Q89 millones de diferencia calculados por técnicos de la DGC) recibió 2 respuestas y ninguna cita.</p>
+        <p>La conversación creció en las citas más que en las respuestas al medio. Las citas con más alcance fueron las de @DarwinHK (383 me gusta, 12,530 vistas), @mmendoza_GT (189 me gusta, 7,874 vistas) y @pchicola (151 me gusta, 3,215 vistas), contadas al momento de la recolección (4 de octubre).</p>
+        <!-- sna:auto:prose key=Medios end -->
+    </div>
+</section>
+
+<section class="step" data-step="3" data-step-type="narrative" data-cluster="Responsabilidad_Arevalo" data-hint="Enfoque: Responsabilidad del presidente Arévalo">
+    <div class="step-card">
+        <div class="meta-tag">Clúster temático</div>
+        <!-- sna:auto:stats key=Responsabilidad_Arevalo start -->
+        <div class="meta-tag">Clúster temático</div>
+        <h2>Responsabilidad del presidente Arévalo</h2>
+        <div class="wordcloud-container">
+            <img src="visuals/wc_Responsabilidad_Arevalo.png" alt="Nube de palabras: Responsabilidad del presidente Arévalo" class="wc-image">
+        </div>
+        <div class="cluster-stats">
+            <p><strong>Cuentas en esta narrativa:</strong> 19</p>
+            <h3>Cuentas más activas:</h3>
+            <div class="actor-badges" id="actors-responsabilidad-arevalo"></div>
+        </div>
+        <!-- sna:auto:stats key=Responsabilidad_Arevalo end -->
+        <!-- sna:auto:prose key=Responsabilidad_Arevalo start -->
+        <p>Es la narrativa más extendida: aparece en 26 de los 56 mensajes, de 19 cuentas. Su eje es quién responde por el caso. Una parte de la conversación rechaza que la responsabilidad recaiga en Tager y la atribuye al presidente: «La responsabilidad no se delega. El responsable es el señor a quien el pueblo le otorgó el poder de tomar las decisiones» (@HaniaSieraDavid).</p>
+        <p>La cuenta @JJMONDAL publicó el mismo texto tres veces, en respuestas y citas a distintas semillas: «Bernardo Arévalo es el Presidente y el responsable de su Gobierno».</p>
+        <!-- sna:auto:prose key=Responsabilidad_Arevalo end -->
+    </div>
+</section>
+
+<section class="step" data-step="4" data-step-type="narrative" data-cluster="Poder_Tager" data-hint="Enfoque: Tager como poder detrás del MICIVI">
+    <div class="step-card">
+        <div class="meta-tag">Clúster temático</div>
+        <!-- sna:auto:stats key=Poder_Tager start -->
+        <div class="meta-tag">Clúster temático</div>
+        <h2>Tager como poder detrás del MICIVI</h2>
+        <div class="wordcloud-container">
+            <img src="visuals/wc_Poder_Tager.png" alt="Nube de palabras: Tager como poder detrás del MICIVI" class="wc-image">
+        </div>
+        <div class="cluster-stats">
+            <p><strong>Cuentas en esta narrativa:</strong> 13</p>
+            <h3>Cuentas más activas:</h3>
+            <div class="actor-badges" id="actors-poder-tager"></div>
+        </div>
+        <!-- sna:auto:stats key=Poder_Tager end -->
+        <!-- sna:auto:prose key=Poder_Tager start -->
+        <p>Aparece en 15 mensajes de 13 cuentas. Sostiene que la secretaria privada Ana Glenda Tager ejerce el control real del MICIVI. La formulan sobre todo las dos citas con más alcance: «La principal responsable tiene nombre: Ana Glenda Tager» (@DarwinHK) y «¿Y adivinen quién habría abogado y buscado financiamiento para que Guerra siga al frente del MICIVI? Ana Glenda Tager» (@mmendoza_GT).</p>
+        <p>Otras cuentas la convierten en una pregunta al presidente: «¿O la Tager tiene más autoridad que él?» (@PattyPe99872402).</p>
+        <!-- sna:auto:prose key=Poder_Tager end -->
+    </div>
+</section>
+
+<section class="step" data-step="5" data-step-type="narrative" data-cluster="Guerra_MICIVI" data-hint="Enfoque: Gilberto Guerra y el caso de los puentes">
+    <div class="step-card">
+        <div class="meta-tag">Clúster temático</div>
+        <!-- sna:auto:stats key=Guerra_MICIVI start -->
+        <div class="meta-tag">Clúster temático</div>
+        <h2>Gilberto Guerra y el caso de los puentes</h2>
+        <div class="wordcloud-container">
+            <img src="visuals/wc_Guerra_MICIVI.png" alt="Nube de palabras: Gilberto Guerra y el caso de los puentes" class="wc-image">
+        </div>
+        <div class="cluster-stats">
+            <p><strong>Cuentas en esta narrativa:</strong> 13</p>
+            <h3>Cuentas más activas:</h3>
+            <div class="actor-badges" id="actors-guerra-micivi"></div>
+        </div>
+        <!-- sna:auto:stats key=Guerra_MICIVI end -->
+        <!-- sna:auto:prose key=Guerra_MICIVI start -->
+        <p>Aparece en 15 mensajes de 13 cuentas. Se centra en la permanencia de Gilberto Guerra en el ministerio y en su relación con el exministro Félix Alvarado, quien lo había denunciado. Es la narrativa más cercana al contenido de la nota y la que menciona más instituciones: @CNCguatemala, @Contraloria_gt, @MPguatemala y @CIV_Guatemala.</p>
+        <p>«La @CNCguatemala debería denunciar a Guerra y a Ana Glenda y pronunciarse sobre el caso» (@pchicola).</p>
+        <!-- sna:auto:prose key=Guerra_MICIVI end -->
+    </div>
+</section>
+
+<section class="step" data-step="6" data-step-type="narrative" data-cluster="Corrupcion_Gobierno" data-hint="Enfoque: Corrupción en el gobierno de la primavera">
+    <div class="step-card">
+        <div class="meta-tag">Clúster temático</div>
+        <!-- sna:auto:stats key=Corrupcion_Gobierno start -->
+        <div class="meta-tag">Clúster temático</div>
+        <h2>Corrupción en el gobierno de la primavera</h2>
+        <div class="wordcloud-container">
+            <img src="visuals/wc_Corrupcion_Gobierno.png" alt="Nube de palabras: Corrupción en el gobierno de la primavera" class="wc-image">
+        </div>
+        <div class="cluster-stats">
+            <p><strong>Cuentas en esta narrativa:</strong> 16</p>
+            <h3>Cuentas más activas:</h3>
+            <div class="actor-badges" id="actors-corrupcion-gobierno"></div>
+        </div>
+        <!-- sna:auto:stats key=Corrupcion_Gobierno end -->
+        <!-- sna:auto:prose key=Corrupcion_Gobierno start -->
+        <p>Aparece en 22 mensajes de 16 cuentas. Lee el caso como muestra de corrupción del gobierno en conjunto, con referencias irónicas a la «primavera», Semilla y Raíces. Predomina en las citas al tuit de @lahoragt: «Estela de corrupción desde el centro de gobierno» (@B_ehel).</p>
+        <p>Es la narrativa con más lenguaje descalificador y la que menos se refiere a los datos de la licitación.</p>
+        <!-- sna:auto:prose key=Corrupcion_Gobierno end -->
+    </div>
+</section>
+
+<section class="step" data-step="7" data-step-type="bot_detail" data-hint="Muestra de perfiles inorgánicos con anomalías topológicas">
+    <div class="step-card">
+        <div class="meta-tag">Anatomía</div>
+        <!-- sna:auto:stats key=__bot_detail__ start -->
+        <h2>Caracterización de las cuentas inorgánicas</h2>
+        <p>La red contiene <strong>1,185 cuentas inorgánicas (11.38%)</strong>.</p>
+        <div id="bot-grid" class="actor-badges"></div>
+        <!-- sna:auto:stats key=__bot_detail__ end -->
+        <!-- sna:auto:prose key=__bot_detail__ start -->
+        <p>Las cuentas inorgánicas se concentran entre los seguidores de unos pocos participantes (@Corleone_62, @ASolaresM, @MariaBonita9697). Eso indica que en su entorno abundan perfiles de seguimiento masivo, pero no que esos perfiles hayan amplificado los mensajes de esta conversación.</p>
+        <!-- sna:auto:prose key=__bot_detail__ end -->
+    </div>
+</section>
+
+<section class="step" data-step="8" data-step-type="hubs" data-hint="Top 20 perfiles más centrales del debate">
+    <div class="step-card">
+        <div class="meta-tag">Hilos de conexión</div>
+        <!-- sna:auto:stats key=__hubs__ start -->
+        <h2>Top hubs: quiénes dirigen el debate</h2>
+        <p>Se identificaron las <strong>20 cuentas con mayor centralidad</strong> como las que más impulsan las narrativas del debate.</p>
+        <!-- sna:auto:stats key=__hubs__ end -->
+        <!-- sna:auto:prose key=__hubs__ start -->
+        <p>Aquí la centralidad debe leerse con cautela: de cada participante se recogieron hasta 200 seguidores, así que casi todos quedan con un grado parecido (entre 200 y 226). El peso real se ve mejor en el alcance de los mensajes: las citas de @DarwinHK, @mmendoza_GT y @pchicola, cuentas con entre 47,000 y 174,000 seguidores, fijaron el marco que retomó el resto.</p>
+        <h3>Cuentas que reaparecen</h3>
+        <p>De las cuentas que escribieron en esta conversación, <strong>16</strong> ya habían participado en la conversación sobre la USAC (julio de 2026) y <strong>4</strong> también comentaron la nota de La Hora sobre la Secretaría Privada (17 de septiembre). Ninguna coincide con las cuentas citadas por @JLFont001 en sus menciones de Tager.</p>
+        <table class="mini-table">
+            <tr><th>Cuenta</th><th>Mensajes aquí</th><th>Nota 17-sep</th><th>USAC</th></tr>
+            <tr><td>@B_ehel</td><td>2</td><td>sí</td><td>participante</td></tr>
+            <tr><td>@Elbuscador2576</td><td>1</td><td>sí</td><td>participante</td></tr>
+            <tr><td>@inesdiariogt</td><td>1</td><td>sí</td><td>participante</td></tr>
+            <tr><td>@MariaBonita9697</td><td>1</td><td>sí</td><td>participante</td></tr>
+            <tr><td>@DarwinHK</td><td>2</td><td>–</td><td>hub</td></tr>
+            <tr><td>@ErickMonte64123</td><td>2</td><td>–</td><td>participante</td></tr>
+            <tr><td>@Zacapa1971</td><td>2</td><td>–</td><td>participante</td></tr>
+            <tr><td>@ASolaresM</td><td>1</td><td>–</td><td>hub</td></tr>
+            <tr><td>@Elliott2014R</td><td>1</td><td>–</td><td>participante</td></tr>
+            <tr><td>@ernestoalpo</td><td>1</td><td>–</td><td>participante</td></tr>
+            <tr><td>@HaniaSieraDavid</td><td>1</td><td>–</td><td>participante</td></tr>
+            <tr><td>@La_ReVoluZzion</td><td>1</td><td>–</td><td>hub</td></tr>
+            <tr><td>@LesterDeLeon76</td><td>1</td><td>–</td><td>participante</td></tr>
+            <tr><td>@losArzuTeEspian</td><td>1</td><td>–</td><td>hub</td></tr>
+            <tr><td>@mmendoza_GT</td><td>1</td><td>–</td><td>participante</td></tr>
+            <tr><td>@PCampoll</td><td>1</td><td>–</td><td>participante</td></tr>
+        </table>
+        <p class="nota">Coincidencia por nombre de usuario. «hub» indica que la cuenta estuvo entre las más centrales de una narrativa en la red de la USAC. Una coincidencia muestra presencia repetida en el debate, no coordinación.</p>
+        <!-- sna:auto:prose key=__hubs__ end -->
+    </div>
+</section>
+<!-- sna:auto:steps:end -->
+        </div>
+    </div>
+    <script>window.SNA_CONFIG = {steps: [{"index": 0, "type": "intro", "key": "__intro__"}, {"index": 1, "type": "bot_intro", "key": "__bot_intro__"}, {"index": 2, "type": "narrative", "key": "Medios"}, {"index": 3, "type": "narrative", "key": "Responsabilidad_Arevalo"}, {"index": 4, "type": "narrative", "key": "Poder_Tager"}, {"index": 5, "type": "narrative", "key": "Guerra_MICIVI"}, {"index": 6, "type": "narrative", "key": "Corrupcion_Gobierno"}, {"index": 7, "type": "bot_detail", "key": "__bot_detail__"}, {"index": 8, "type": "hubs", "key": "__hubs__"}], theme: {"organicColor": "#4285F4", "inorganicColor": "#e74c3c", "medioColor": "#eda100"}, physics: {"linkDistance": 40, "chargeStrength": -80, "ticks": 300}};</script>
+    <script src="js/network.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

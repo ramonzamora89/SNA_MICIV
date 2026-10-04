@@ -1,0 +1,183 @@
+{
+  "config_version": "1.0",
+  "project": {
+    "name": "SNA MICIV – Puentes de Primavera",
+    "language": "es",
+    "spacy_model": "es_core_news_sm"
+  },
+  "actors": {
+    "comments": {
+      "dataset_subdir": "Comments",
+      "columns": {
+        "screen_name": "author/screen_name",
+        "name": "author/name",
+        "text": "text",
+        "text_fallback": "display_text",
+        "conversation_id": "conversation_id",
+        "mention_screen_name_0": "entities/user_mentions/0/screen_name",
+        "mention_name_0": "entities/user_mentions/0/name"
+      }
+    },
+    "quotes": {
+      "dataset_subdir": "Quotes",
+      "columns": {
+        "screen_name": "authorUsername",
+        "name": "authorName",
+        "text": "text",
+        "parent_tweet_id": "parentTweetId",
+        "in_reply_to_username": "inReplyToUsername"
+      }
+    },
+    "redes": {
+      "dataset_subdir": "Redes",
+      "columns": {
+        "type": "type",
+        "target_username": "target_username",
+        "screen_name": "screen_name",
+        "followers_count": "followers_count",
+        "friends_count": "friends_count",
+        "description": "description",
+        "verified": "verified"
+      }
+    }
+  },
+  "media_accounts": {
+    "confirmed": [
+      "agn_noticias",
+      "canalantigua",
+      "diariodeca",
+      "emisorasunidas",
+      "ep_investiga",
+      "lahoragt",
+      "nuestrodiario",
+      "publinewsgt",
+      "radiopuntogt",
+      "soy_502",
+      "voxpopuliguate"
+    ],
+    "bio_hint_keywords": [
+      "noticia",
+      "diario",
+      "canal",
+      "radio",
+      "prensa",
+      "periodis",
+      "noticiero",
+      "informativo",
+      "redacción"
+    ],
+    "group_key": "Medios",
+    "group_title": "Medios de comunicación",
+    "group_color": "#eda100"
+  },
+  "narratives": [
+    {
+      "key": "Responsabilidad_Arevalo",
+      "title": "Responsabilidad del presidente Arévalo",
+      "keywords": [
+        "arévalo",
+        "arevalo",
+        "bernardo",
+        "barevalodeleon",
+        "presidente",
+        "cobarde",
+        "traidor",
+        "encubridor",
+        "solapando",
+        "permite",
+        "arevago"
+      ],
+      "color": "#c0392b"
+    },
+    {
+      "key": "Poder_Tager",
+      "title": "Tager como poder detrás del MICIVI",
+      "keywords": [
+        "tager",
+        "tajer",
+        "glenda",
+        "secretaría privada",
+        "secretaria privada",
+        "verdadera ministra",
+        "ana brenda"
+      ],
+      "color": "#8e44ad"
+    },
+    {
+      "key": "Guerra_MICIVI",
+      "title": "Gilberto Guerra y el caso de los puentes",
+      "keywords": [
+        "guerra",
+        "gilberto",
+        "puente",
+        "puentes",
+        "micivi",
+        "civ",
+        "ministerio",
+        "ministra",
+        "zea",
+        "felix",
+        "alvarado",
+        "dgc",
+        "licitación",
+        "sobrevalora",
+        "obras"
+      ],
+      "color": "#2471a3"
+    },
+    {
+      "key": "Corrupcion_Gobierno",
+      "title": "Corrupción en el gobierno de la primavera",
+      "keywords": [
+        "corrupción",
+        "corrupcion",
+        "corrupto",
+        "corruptos",
+        "robadera",
+        "robierno",
+        "delincuentes",
+        "ladrones",
+        "primavera",
+        "semilla",
+        "raíces",
+        "transparencia",
+        "negocios",
+        "hdp"
+      ],
+      "color": "#d68910"
+    }
+  ],
+  "bot_detection": {
+    "friends_min": 500,
+    "friends_followers_ratio_min": 10,
+    "out_degree_min": 15,
+    "in_degree_max": 2
+  },
+  "graph_trim": {
+    "top_by_indegree": 1500,
+    "bot_sample_size": 300,
+    "top_hubs_count": 20,
+    "top_actors_per_narrative": 8,
+    "top_bot_targets_count": 10,
+    "all_bots_listed": 100
+  },
+  "site": {
+    "output_dir": "scrollytelling-site",
+    "title": "Puentes de Primavera: la conversación en X sobre la nota de La Hora",
+    "password": "miciv-536fdf",
+    "theme": {
+      "font_family": "'Poppins', sans-serif",
+      "organic_color": "#4285F4",
+      "inorganic_color": "#e74c3c"
+    },
+    "physics": {
+      "link_distance": 40,
+      "charge_strength": -80,
+      "ticks": 300
+    }
+  },
+  "deploy": {
+    "github_repo": "ramonzamora89/SNA_MICIV",
+    "pages_branch": "main"
+  }
+}

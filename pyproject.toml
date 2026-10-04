@@ -1,0 +1,13 @@
+[project]
+name = "sna-miciv"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "networkx>=3.6.1",
+    "pandas>=3.0.6",
+    "psycopg[binary]>=3.3.6",
+    "pyyaml>=6.0.3",
+    "requests>=2.34.2",
+    "spacy>=3.8.16",
+    "wordcloud>=1.9.6",
+]
