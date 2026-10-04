@@ -3,14 +3,20 @@
     uv run scripts/prosa_sitio.py   # después de render_site.py; sobrescribe solo la prosa
 
 La tabla de personajes recurrentes se arma desde reportes/personajes_recurrentes.csv.
+También reaplica site_overrides/ (render_site.py vuelve a copiar el motor JS de la plantilla del plugin).
 """
 
 import csv
 import re
+import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 HTML = ROOT / "scrollytelling-site/index.html"
+OVERRIDES = ROOT / "site_overrides"
+URL_USAC = "https://ramonzamora89.github.io/AGT_USAC/"
+URL_NOTA_17SEP = ("https://lahora.gt/investigacion/engelberth-blanco/2026/09/17/"
+                  "secretaria-privada-acepta-mecanismo-legal-que-tiene-incidencia-en-ministerios-y-secretarias/")
 
 
 def personajes() -> str:
@@ -24,7 +30,12 @@ def personajes() -> str:
         f"<td>{'sí' if f['AGT_x_textos'] != '0' else '–'}</td><td>{f['AGT_USAC'] or '–'}</td></tr>"
         for f in sorted(part, key=lambda f: (f["AGT_x_textos"] == "0", -int(f["participaciones"]))))
     return f"""        <h3>Cuentas que reaparecen</h3>
-        <p>De las cuentas que escribieron en esta conversación, <strong>{len(usac)}</strong> ya habían participado en la conversación sobre la USAC (julio de 2026) y <strong>{len(tres)}</strong> también comentaron la nota de La Hora sobre la Secretaría Privada (17 de septiembre). Ninguna coincide con las cuentas citadas por @JLFont001 en sus menciones de Tager.</p>
+        <p>Esta conversación puede compararse con otras dos en X en torno a la Secretaría Privada:</p>
+        <ul>
+            <li>la red sobre la crisis de la USAC, de julio de 2026 (<a href="{URL_USAC}" target="_blank" rel="noopener">ver análisis</a>);</li>
+            <li>las reacciones a la nota de La Hora «Secretaría Privada acepta “mecanismo legal” que tiene incidencia en ministerios y secretarías», del 17 de septiembre (<a href="{URL_NOTA_17SEP}" target="_blank" rel="noopener">ver nota</a>).</li>
+        </ul>
+        <p>De las 45 cuentas que escribieron aquí, <strong>{len(usac)}</strong> ya habían participado en la conversación sobre la USAC, y <strong>{len(tres)}</strong> comentaron también la nota del 17 de septiembre.</p>
         <table class="mini-table">
             <tr><th>Cuenta</th><th>Mensajes aquí</th><th>Nota 17-sep</th><th>USAC</th></tr>
 {filas_html}
@@ -37,7 +48,7 @@ PROSA = {
     "__intro__": """        <p>El 3 de octubre, La Hora publicó «Puentes de Primavera sobrevalorados: así se aumentaron los costos y se cambiaron las bases de la licitación». La nota señala sobrecostos en puentes de la DGC y sitúa los cambios en la cúpula del MICIVI, con mención de Gilberto Guerra, principal asesor de la ministra Norma Zea.</p>
         <p>Este análisis sigue seis publicaciones en X: dos de @lahoragt y cuatro de cuentas que la citaron o la ampliaron (@DarwinHK, @mmendoza_GT, @RMendezRuiz y @VicenteCarrera_). Se recogieron 35 respuestas y 21 citas de 45 cuentas, y la red de seguidores de cada una. La conversación es pequeña: la red refleja quiénes rodean a esas 45 cuentas, no el alcance total de la nota.</p>
 """,
-    "__bot_intro__": """        <p>Una cuenta se marca como inorgánica si sigue a muchas más cuentas de las que la siguen (más de 500 seguidos y diez veces más seguidos que seguidores) o si interactúa mucho sin recibir interacción. Es un criterio de comportamiento, no una prueba de automatización, y se aplicó igual que en el análisis de la USAC.</p>
+    "__bot_intro__": """        <p>Una cuenta se marca como inorgánica si sigue a muchas más cuentas de las que la siguen (más de 500 seguidos y diez veces más seguidos que seguidores) o si interactúa mucho sin recibir interacción. Es un criterio de comportamiento, no una prueba de automatización.</p>
         <p>Casi todas las cuentas marcadas están en la periferia: son seguidores de los participantes, no autores de mensajes. Solo 1 de las 45 cuentas que escribieron cumple el criterio.</p>
 """,
     "Medios": """        <p>@lahoragt es el único medio que publicó en el núcleo de esta conversación. Su tuit principal recibió 4 respuestas y 10 citas en X. El tuit de seguimiento (#LHPuentesdePrimavera, sobre los Q89 millones de diferencia calculados por técnicos de la DGC) recibió 2 respuestas y ninguna cita.</p>
@@ -79,6 +90,9 @@ def main():
 </style>
 </head>""", 1)
     HTML.write_text(html, encoding="utf-8")
+    for f in OVERRIDES.rglob("*"):
+        if f.is_file():
+            shutil.copyfile(f, ROOT / "scrollytelling-site" / f.relative_to(OVERRIDES))
     print(f"Prosa escrita en {len(prosa)} pasos → {HTML.relative_to(ROOT)}")
 
 

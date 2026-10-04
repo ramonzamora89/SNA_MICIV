@@ -87,7 +87,7 @@
         "permite",
         "arevago"
       ],
-      "color": "#c0392b"
+      "color": "#0f8b8d"
     },
     {
       "key": "Poder_Tager",
@@ -101,7 +101,7 @@
         "verdadera ministra",
         "ana brenda"
       ],
-      "color": "#8e44ad"
+      "color": "#7b3fa0"
     },
     {
       "key": "Guerra_MICIVI",
@@ -123,7 +123,7 @@
         "sobrevalora",
         "obras"
       ],
-      "color": "#2471a3"
+      "color": "#3f7d20"
     },
     {
       "key": "Corrupcion_Gobierno",
@@ -144,7 +144,7 @@
         "negocios",
         "hdp"
       ],
-      "color": "#d68910"
+      "color": "#8d5524"
     }
   ],
   "bot_detection": {
@@ -157,7 +157,7 @@
     "top_by_indegree": 1500,
     "bot_sample_size": 300,
     "top_hubs_count": 20,
-    "top_actors_per_narrative": 8,
+    "top_actors_per_narrative": 25,
     "top_bot_targets_count": 10,
     "all_bots_listed": 100
   },

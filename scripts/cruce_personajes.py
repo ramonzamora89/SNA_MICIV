@@ -1,4 +1,4 @@
-"""Cruza las cuentas de la conversación MICIV con las de AGT, AGT_CC y AGT_USAC.
+"""Cruza las cuentas de la conversación MICIV con las de AGT (nota del 17-sep) y AGT_USAC.
 
     uv run scripts/cruce_personajes.py   # → reportes/personajes_recurrentes.csv
 
@@ -84,34 +84,24 @@ def agt():
     return c
 
 
-def agt_cc():
-    """@JLFont001 y las cuentas a las que responde o cita en sus menciones de Tager."""
-    c = Counter({"jlfont001": 0})
-    for r in leer(PIKA / "AGT_CC/resultados/menciones_x.csv").itertuples():
-        c["jlfont001"] += 1
-        for m in HANDLE_URL.findall(r.tuit_referido or ""):
-            c[h(m)] += 1
-    return c
-
-
 def main():
     p, nodos = miciv()
     usac_part, usac_hubs, usac_nodos = agt_usac()
-    agt_c, cc_c = agt(), agt_cc()
+    agt_c = agt()
     filas = []
     for k in sorted(set(p) | set(nodos)):
         r = p[k] if k in p else {"handle": nodos[k]["id"], "participaciones": 0, "menciones_recibidas": 0, "narrativas": set()}
         n = nodos.get(k, {})
-        en = {"en_AGT": agt_c.get(k, 0), "en_AGT_CC": cc_c.get(k, 0),
+        en = {"en_AGT": agt_c.get(k, 0),
               "en_AGT_USAC": "hub" if k in usac_hubs else ("participante" if k in usac_part else ("red" if k in usac_nodos else ""))}
-        if not (en["en_AGT"] or en["en_AGT_CC"] or en["en_AGT_USAC"]):
+        if not (en["en_AGT"] or en["en_AGT_USAC"]):
             continue
         rol = "participante" if r["participaciones"] else ("mencionado" if r["menciones_recibidas"] else "red")
         filas.append({"handle": r["handle"] or k, "rol_miciv": rol, "participaciones": r["participaciones"],
                       "menciones_recibidas": r["menciones_recibidas"], "narrativas": ";".join(sorted(r["narrativas"])),
                       "grado_in_red": n.get("val", ""), "comunidad": n.get("group", ""), "es_medio": n.get("es_medio", ""),
                       "inorganico": n.get("type") == "inorganic" if n else "",
-                      "AGT_x_textos": en["en_AGT"], "AGT_CC_textos": en["en_AGT_CC"], "AGT_USAC": en["en_AGT_USAC"],
+                      "AGT_x_textos": en["en_AGT"], "AGT_USAC": en["en_AGT_USAC"],
                       "n_proyectos": sum(bool(v) for v in en.values())})
     orden = {"participante": 0, "mencionado": 1, "red": 2}
     filas.sort(key=lambda f: (-f["n_proyectos"], orden[f["rol_miciv"]], -f["participaciones"] - f["menciones_recibidas"]))
@@ -125,7 +115,7 @@ def main():
     print(f"{len(filas)} cuentas de MICIV aparecen en proyectos previos {dict(roles)} → {out.relative_to(ROOT)}\n")
     for f in [f for f in filas if f["rol_miciv"] != "red"][:40]:
         print(f"  @{f['handle']:<18} {f['rol_miciv']:<12} part={f['participaciones']} menc={f['menciones_recibidas']} "
-              f"AGT={f['AGT_x_textos']} CC={f['AGT_CC_textos']} USAC={f['AGT_USAC'] or '-'}  {f['narrativas']}")
+              f"AGT={f['AGT_x_textos']} USAC={f['AGT_USAC'] or '-'}  {f['narrativas']}")
 
 
 if __name__ == "__main__":
