@@ -1,6 +1,6 @@
 # SNA MICIV: estado del proyecto
 
-Sitio: https://ramonzamora89.github.io/SNA_MICIV/ (repo público `ramonzamora89/SNA_MICIV`). Gasto en Apify: unos $4.85.
+Sitio: https://ramonzamora89.github.io/SNA_MICIV/ (repo público `ramonzamora89/SNA_MICIV`). Gasto en Apify: unos $4.85. Última publicación: ronda 2, commit `647e220` (5-oct-2026), desplegada por el workflow de Pages.
 
 ## Rondas
 - **4-oct-2026:** 6 semillas (nota de La Hora y sus citas). 35 respuestas, 21 quotes, 45 cuentas, red de 10,413 nodos. $2.23. Archivo en `Dataset/archivo_2026-10-04/`.
@@ -9,6 +9,17 @@ Sitio: https://ramonzamora89.github.io/SNA_MICIV/ (repo público `ramonzamora89/
   - Nuevo paso «Cómo se movió la conversación» (`scripts/difusion.py`, `site_overrides/js/diffusion.js` y `css/diffusion.css`). En escritorio se dibuja sobre el panel del grafo y en móvil, dentro de la tarjeta. `prosa_sitio.py` lo inserta antes del paso de cuentas inorgánicas con `data-step="99"`.
   - El tercer tuit de @vozdeltuit (2106820856714252297) no estaba en la base del monitor. El texto se sacó del endpoint público de syndication de X, cacheado en `Dataset/semillas.json`.
   - La nota de La Hora del 5-oct («Grupo de empresas en el CIV») queda como hito en la línea de tiempo, no como semilla, porque falta su tuit.
+  - Hallazgos que el sitio cuenta en el paso de difusión: hasta el 4-oct a las 12:34 (hora de Guatemala), 13 de 61 reacciones hablaban de Guerra, la licitación o el ministerio; después, 3 de 63. Solo 5 cuentas participan en los dos momentos. La mitad de las reacciones llega en las primeras 9 h tras cada publicación y el 90 %, en las primeras 24 h. Cruce: 28 de las 104 cuentas estuvieron en AGT_USAC y 4 en AGT (17-sep). 4 participantes cumplen el criterio de inorgánicos.
+  - `apify_collect.py`: el tope por corrida de comentarios y quotes bajó de $1.50 a $0.30. Con el tope anterior, el control de presupuesto bloqueaba la fase, porque el monitor de Escucha-Social comparte la cuenta de Apify y ya llevaba unos $24 del mes. Las corridas reales cuestan entre $0.002 y $0.03.
+  - Se revisó con Playwright y Chrome headless sobre una copia sin contraseña, a 1440 px y 390 px. Sin errores de consola, salvo el favicon, que no existe.
+  - El sitio público no nombra al monitor de Escucha-Social, porque es un proyecto de cliente.
+
+## Próxima ronda (si sigue la conversación)
+1. Buscar semillas y respuestas tardías en el monitor: `uv run scripts/escucha_social_contexto.py candidatos` (ajustar `DESDE`/`HASTA`). El monitor no siempre tiene todos los tuits; el endpoint de syndication sirve para ver uno suelto.
+2. Mover `Dataset/Comments` y `Dataset/Quotes` a `Dataset/archivo_<fecha>/`, sumar las semillas a `seeds.yaml` y correr `apify_collect.py interacciones --forzar`.
+3. `extract-users` → `filtrar_participantes.py` → `apify_collect.py followers --dry-run`. Confirmar el costo con Moncho antes de correrlo sin `--dry-run`.
+4. `classify-media`, `build-network`, `generate-wordclouds`, `render-site`, `cruce_personajes.py`, `difusion.py` y `prosa_sitio.py`. Las cifras de la prosa están escritas a mano en `prosa_sitio.py` (`PROSA` y `DIFUSION`), así que hay que recalcularlas.
+5. Candidato pendiente: el tuit de La Hora de la nota del 5-oct, si Moncho quiere sumarlo como semilla.
 
 ## Tareas pendientes
 
