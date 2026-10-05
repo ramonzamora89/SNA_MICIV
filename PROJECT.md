@@ -1,21 +1,20 @@
 # SNA MICIV: estado del proyecto
 
-Sitio: https://ramonzamora89.github.io/SNA_MICIV/ (repo público `ramonzamora89/SNA_MICIV`). Gasto en Apify: unos $4.85. Última publicación: ronda 2, commit `647e220` (5-oct-2026), desplegada por el workflow de Pages.
+Sitio: https://ramonzamora89.github.io/SNA_MICIV/ (repo público `ramonzamora89/SNA_MICIV`). Última publicación: ronda 2, commit `647e220` (5-oct-2026), desplegada por el workflow de Pages.
 
 ## Rondas
-- **4-oct-2026:** 6 semillas (nota de La Hora y sus citas). 35 respuestas, 21 quotes, 45 cuentas, red de 10,413 nodos. $2.23. Archivo en `Dataset/archivo_2026-10-04/`.
-- **5-oct-2026:** se recogen de nuevo las 6 semillas (había respuestas tardías que el monitor de Escucha-Social sí vio) y se suman 5 que tocan el tema de forma indirecta: 3 de @vozdeltuit, @__VaderGT y @5toPoderSM. 89 respuestas, 35 quotes, 104 cuentas, red de 20,072 nodos. Gasto: $0.09 en interacciones y $2.53 en followers (59 cuentas nuevas).
+- **4-oct-2026:** 6 semillas (nota de La Hora y sus citas). 35 respuestas, 21 quotes, 45 cuentas, red de 10,413 nodos. Archivo en `Dataset/archivo_2026-10-04/`.
+- **5-oct-2026:** se recogen de nuevo las 6 semillas (había respuestas tardías) y se suman 5 que tocan el tema de forma indirecta: 3 de @vozdeltuit, @__VaderGT y @5toPoderSM. 89 respuestas, 35 quotes, 104 cuentas, red de 20,072 nodos (59 cuentas nuevas en followers).
   - Nueva narrativa, `Culpas_Trasladadas` («El oficialismo siempre culpa a otro», #ad1457). Se sumaron `responsab` y `alcahuete` a `Responsabilidad_Arevalo`. «excusa» quedó fuera porque coincidía con @FelixSinExcusas.
   - Nuevo paso «Cómo se movió la conversación» (`scripts/difusion.py`, `site_overrides/js/diffusion.js` y `css/diffusion.css`). En escritorio se dibuja sobre el panel del grafo y en móvil, dentro de la tarjeta. `prosa_sitio.py` lo inserta antes del paso de cuentas inorgánicas con `data-step="99"`.
-  - El tercer tuit de @vozdeltuit (2106820856714252297) no estaba en la base del monitor. El texto se sacó del endpoint público de syndication de X, cacheado en `Dataset/semillas.json`.
+  - El tercer tuit de @vozdeltuit (2106820856714252297) no estaba en la base de monitoreo. El texto se sacó del endpoint público de syndication de X, cacheado en `Dataset/semillas.json`.
   - La nota de La Hora del 5-oct («Grupo de empresas en el CIV») queda como hito en la línea de tiempo, no como semilla, porque falta su tuit.
   - Hallazgos que el sitio cuenta en el paso de difusión: hasta el 4-oct a las 12:34 (hora de Guatemala), 13 de 61 reacciones hablaban de Guerra, la licitación o el ministerio; después, 3 de 63. Solo 5 cuentas participan en los dos momentos. La mitad de las reacciones llega en las primeras 9 h tras cada publicación y el 90 %, en las primeras 24 h. Cruce: 28 de las 104 cuentas estuvieron en AGT_USAC y 4 en AGT (17-sep). 4 participantes cumplen el criterio de inorgánicos.
-  - `apify_collect.py`: el tope por corrida de comentarios y quotes bajó de $1.50 a $0.30. Con el tope anterior, el control de presupuesto bloqueaba la fase, porque el monitor de Escucha-Social comparte la cuenta de Apify y ya llevaba unos $24 del mes. Las corridas reales cuestan entre $0.002 y $0.03.
+  - `apify_collect.py`: se bajó el tope por corrida de comentarios y quotes para que el control de presupuesto no bloquee la fase.
   - Se revisó con Playwright y Chrome headless sobre una copia sin contraseña, a 1440 px y 390 px. Sin errores de consola, salvo el favicon, que no existe.
-  - El sitio público no nombra al monitor de Escucha-Social, porque es un proyecto de cliente.
 
 ## Próxima ronda (si sigue la conversación)
-1. Buscar semillas y respuestas tardías en el monitor: `uv run scripts/escucha_social_contexto.py candidatos` (ajustar `DESDE`/`HASTA`). El monitor no siempre tiene todos los tuits; el endpoint de syndication sirve para ver uno suelto.
+1. Buscar semillas y respuestas tardías en la base de monitoreo: `uv run scripts/escucha_social_contexto.py candidatos` (ajustar `DESDE`/`HASTA`). La base no siempre tiene todos los tuits; el endpoint de syndication sirve para ver uno suelto.
 2. Mover `Dataset/Comments` y `Dataset/Quotes` a `Dataset/archivo_<fecha>/`, sumar las semillas a `seeds.yaml` y correr `apify_collect.py interacciones --forzar`.
 3. `extract-users` → `filtrar_participantes.py` → `apify_collect.py followers --dry-run`. Confirmar el costo con Moncho antes de correrlo sin `--dry-run`.
 4. `classify-media`, `build-network`, `generate-wordclouds`, `render-site`, `cruce_personajes.py`, `difusion.py` y `prosa_sitio.py`. Las cifras de la prosa están escritas a mano en `prosa_sitio.py` (`PROSA` y `DIFUSION`), así que hay que recalcularlas.
