@@ -1,0 +1,53 @@
+/* Vista de difusión (js/diffusion.js) */
+#diffusion-panel {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: var(--bg-white);
+    padding: 1.5rem 1.5rem 1rem;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+#diffusion-panel.visible { opacity: 1; pointer-events: auto; }
+.diffusion-head { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; }
+.diffusion-body, #diffusion-card-slot { position: relative; }
+#diffusion-card-slot { margin-top: 1rem; }
+
+.diffusion-controls { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; font-size: 0.75rem; color: var(--text-muted); }
+.diffusion-controls button {
+    font: inherit; border: 1px solid var(--border-color); background: var(--bg-light); color: var(--text-dark);
+    padding: 0.15rem 0.6rem; border-radius: 999px; cursor: pointer;
+}
+.diffusion-controls button.on { background: var(--text-dark); color: var(--bg-white); border-color: var(--text-dark); }
+.diffusion-legend { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; margin: 0.5rem 0; font-size: 0.72rem; color: var(--text-muted); }
+.diffusion-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.3rem; vertical-align: -1px; }
+.diffusion-legend i.seed-mark { background: #334155; border-radius: 0; transform: rotate(45deg) scale(0.85); }
+.diffusion-legend i.cascade-mark { width: 16px; height: 0; border-radius: 0; border-top: 1.5px dashed #64748b; vertical-align: 3px; }
+
+.diffusion-svg { display: block; font-family: var(--font-family); }
+.diffusion-svg .day-band { fill: transparent; }
+.diffusion-svg .day-band.odd { fill: #f1f5f9; }
+.diffusion-svg .day-label { font-size: 10px; font-weight: 600; fill: #64748b; }
+.diffusion-svg .diffusion-axis text { font-size: 9px; fill: #64748b; }
+.diffusion-svg .diffusion-axis path, .diffusion-svg .diffusion-axis line { stroke: #cbd5e1; }
+.diffusion-svg .hist-label { font-size: 9px; fill: #64748b; }
+.diffusion-svg .lane { stroke: #e2e8f0; stroke-width: 1; }
+.diffusion-svg .lane-label { font-size: 11px; font-weight: 500; fill: var(--text-dark); }
+.diffusion-svg .lane-label.small { font-size: 9px; }
+.diffusion-svg .lane-sub { font-size: 8.5px; font-weight: 300; fill: #64748b; }
+.diffusion-svg .cascade { fill: none; stroke: #64748b; stroke-width: 1.3; stroke-dasharray: 3 3; }
+.diffusion-svg .marca { stroke-width: 1; stroke-dasharray: 2 3; }
+.diffusion-svg .marca.hito { stroke: #0f172a; }
+.diffusion-svg .marca.corte { stroke: #94a3b8; }
+.diffusion-svg .marca-label { font-size: 9px; fill: #475569; }
+.diffusion-svg .ev { opacity: 0.85; stroke: #fff; stroke-width: 0.6; cursor: default; }
+.diffusion-svg .seed { stroke: #fff; stroke-width: 1.2; }
+.diffusion-svg .ev:hover, .diffusion-svg .seed:hover { stroke: #0f172a; stroke-width: 1.2; }
+
+.diffusion-tip {
+    position: absolute; display: none; max-width: 280px; z-index: 20; pointer-events: none;
+    background: #0f172a; color: #f8fafc; font-size: 0.72rem; line-height: 1.35; padding: 0.5rem 0.65rem; border-radius: 8px;
+}
+.diffusion-tip em { color: #cbd5e1; }

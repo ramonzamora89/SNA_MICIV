@@ -178,7 +178,7 @@ function draw() {
 
         ctx.beginPath();
 
-        if (stepType === "intro" || stepType === "bot_intro") {
+        if (stepType === "intro" || stepType === "bot_intro" || stepType === "diffusion") {
             ctx.strokeStyle = COLORS.activeLink;
             ctx.lineWidth = 0.6 / Math.sqrt(currentTransform.k);
         } else if (stepType === "narrative") {
@@ -218,7 +218,7 @@ function draw() {
         let opacity = 1.0;
         let color = node.es_medio ? COLORS.medio : (node.type === 'inorganic' ? COLORS.inorganic : COLORS.organic);
 
-        if (stepType === "intro" || stepType === "bot_intro") {
+        if (stepType === "intro" || stepType === "bot_intro" || stepType === "diffusion") {
             opacity = 1.0;
         } else if (stepType === "narrative") {
             if (focus.actors.has(node.id)) {
@@ -291,7 +291,7 @@ function draw() {
         let labelColor = "#2c3e50";
         let opacity = 1.0;
 
-        if (stepType === "intro" || stepType === "bot_intro") {
+        if (stepType === "intro" || stepType === "bot_intro" || stepType === "diffusion") {
             showLabel = true;
             opacity = 0.75;
         } else if (stepType === "narrative") {
@@ -396,7 +396,7 @@ function setVisualState(stepIndex) {
 
     const stepType = stepTypeAt(stepIndex);
 
-    if (stepType === "intro" || stepType === "bot_intro") {
+    if (stepType === "intro" || stepType === "bot_intro" || stepType === "diffusion") {
         resetZoom();
         draw();
     } else if (stepType === "narrative") {

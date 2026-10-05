@@ -1,6 +1,14 @@
 # SNA MICIV: estado del proyecto
 
-Sitio: https://ramonzamora89.github.io/SNA_MICIV/ (repo público `ramonzamora89/SNA_MICIV`). Datos recogidos el 4-oct-2026. Gasto en Apify: unos $2.23.
+Sitio: https://ramonzamora89.github.io/SNA_MICIV/ (repo público `ramonzamora89/SNA_MICIV`). Gasto en Apify: unos $4.85.
+
+## Rondas
+- **4-oct-2026:** 6 semillas (nota de La Hora y sus citas). 35 respuestas, 21 quotes, 45 cuentas, red de 10,413 nodos. $2.23. Archivo en `Dataset/archivo_2026-10-04/`.
+- **5-oct-2026:** se recogen de nuevo las 6 semillas (había respuestas tardías que el monitor de Escucha-Social sí vio) y se suman 5 que tocan el tema de forma indirecta: 3 de @vozdeltuit, @__VaderGT y @5toPoderSM. 89 respuestas, 35 quotes, 104 cuentas, red de 20,072 nodos. Gasto: $0.09 en interacciones y $2.53 en followers (59 cuentas nuevas).
+  - Nueva narrativa, `Culpas_Trasladadas` («El oficialismo siempre culpa a otro», #ad1457). Se sumaron `responsab` y `alcahuete` a `Responsabilidad_Arevalo`. «excusa» quedó fuera porque coincidía con @FelixSinExcusas.
+  - Nuevo paso «Cómo se movió la conversación» (`scripts/difusion.py`, `site_overrides/js/diffusion.js` y `css/diffusion.css`). En escritorio se dibuja sobre el panel del grafo y en móvil, dentro de la tarjeta. `prosa_sitio.py` lo inserta antes del paso de cuentas inorgánicas con `data-step="99"`.
+  - El tercer tuit de @vozdeltuit (2106820856714252297) no estaba en la base del monitor. El texto se sacó del endpoint público de syndication de X, cacheado en `Dataset/semillas.json`.
+  - La nota de La Hora del 5-oct («Grupo de empresas en el CIV») queda como hito en la línea de tiempo, no como semilla, porque falta su tuit.
 
 ## Tareas pendientes
 
@@ -19,5 +27,7 @@ También conviene revisar en el plugin:
 - **`docs/manual.html` tiene intercambiados los IDs de Apify de comentarios y quotes.** Lo correcto: comentarios = `JxQa1hxyiV7DNvz8h` (`patient_discovery/twitter-comments`); quotes = `1zGIVMa95eYRzncI4` (`seemuapps/x-quote-tweets-scraper`).
 - **El actor de followers exige `maxFollowings` ≥ 200.** Documentarlo en el manual.
 - Agregar al plugin un paso de recolección por API, sobre la base de `scripts/apify_collect.py`.
+- **`extract-users` mezcla a los seguidores de `Redes/` con los participantes** cuando ya hay datos de red (10,444 cuentas en vez de 104). Aquí se corrige con `scripts/filtrar_participantes.py`; en el plugin, filtrar `fuentes` a comments, quotes y autor_original.
+- Llevar la vista de difusión (`diffusion.js`) a la plantilla, como paso opcional.
 
 Después de migrar: borrar `site_overrides/` y la copia en `prosa_sitio.py`, correr `render_site.py` y verificar que el sitio se vea igual.

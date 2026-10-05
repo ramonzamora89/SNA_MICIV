@@ -85,7 +85,9 @@
         "encubridor",
         "solapando",
         "permite",
-        "arevago"
+        "arevago",
+        "responsab",
+        "alcahuete"
       ],
       "color": "#0f8b8d"
     },
@@ -145,6 +147,23 @@
         "hdp"
       ],
       "color": "#8d5524"
+    },
+    {
+      "key": "Culpas_Trasladadas",
+      "title": "El oficialismo siempre culpa a otro",
+      "keywords": [
+        "culpa",
+        "no nos deja",
+        "conny",
+        "porras",
+        "matrices",
+        "anterior gobierno",
+        "2027",
+        "2028",
+        "chivo expiatorio",
+        "net centers"
+      ],
+      "color": "#ad1457"
     }
   ],
   "bot_detection": {

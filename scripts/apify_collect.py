@@ -1,7 +1,11 @@
 """Recolección de X por la API de Apify, con tope de gasto por corrida.
 
-    uv run scripts/apify_collect.py interacciones [--dry-run]   # comentarios + quotes de cada semilla de seeds.yaml
+    uv run scripts/apify_collect.py interacciones [--dry-run] [--forzar]  # comentarios + quotes de cada semilla de seeds.yaml
     uv run scripts/apify_collect.py followers [--dry-run]       # seguidores/seguidos de Dataset/apify_users_list.txt
+
+--forzar vuelve a recolectar semillas que ya figuran en runs.log.csv (para traer respuestas tardías);
+antes hay que mover los CSV viejos fuera de Dataset/Comments y Dataset/Quotes para no duplicar aristas.
+followers pide solo las cuentas que todavía no están como target_username en Dataset/Redes/.
 
 Reutiliza run_actor() de Escucha-Social (APIFY_TOKEN de su .env). Los CSV se bajan con el export de
 Apify (format=csv), así quedan las mismas columnas aplanadas que leen los scripts del plugin.
@@ -27,8 +31,8 @@ DATASET = ROOT / "Dataset"
 LOG = ROOT / "runs.log.csv"
 
 # IDs verificados en la API de Apify (el manual del plugin los tiene intercambiados)
-COMMENTS = {"actor": "patient_discovery/twitter-comments", "slug": "twitter-comments", "max_usd": 1.50}
-QUOTES = {"actor": "seemuapps/x-quote-tweets-scraper", "slug": "x-quote-tweets-scraper", "max_usd": 1.50}
+COMMENTS = {"actor": "patient_discovery/twitter-comments", "slug": "twitter-comments", "max_usd": 0.30}
+QUOTES = {"actor": "seemuapps/x-quote-tweets-scraper", "slug": "x-quote-tweets-scraper", "max_usd": 0.30}
 FOLLOWERS = {"actor": "kaitoeasyapi/premium-x-follower-scraper-following-data",
              "slug": "premium-x-follower-scraper-following-data"}
 MAX_FOLLOWERS, MAX_FOLLOWINGS, LOTE = 200, 200, 100  # el actor exige maxFollowings >= 200
@@ -82,7 +86,7 @@ def revisar_presupuesto(tope_fase: float):
         raise SystemExit("La fase podría pasar el presupuesto mensual; ajústalo a propósito antes de seguir.")
 
 
-def interacciones(dry: bool):
+def interacciones(dry: bool, forzar: bool = False):
     seeds = yaml.safe_load((ROOT / "seeds.yaml").read_text(encoding="utf-8"))
     tope = len(seeds) * (COMMENTS["max_usd"] + QUOTES["max_usd"])
     print(f"{len(seeds)} semillas × 2 actores, tope máximo ${tope:.2f}")
@@ -90,7 +94,7 @@ def interacciones(dry: bool):
         return
     revisar_presupuesto(tope)
     hechos = {(r["actor"], r["objetivo"]) for r in csv.DictReader(open(LOG, encoding="utf-8"))
-              if r["status"] == "SUCCEEDED"} if LOG.exists() else set()
+              if r["status"] == "SUCCEEDED"} if LOG.exists() and not forzar else set()
     for s in seeds:
         print(f"@{s['autor']} {s['id']} ({s['carpeta']})")
         if (COMMENTS["actor"], s["id"]) not in hechos:
@@ -101,12 +105,24 @@ def interacciones(dry: bool):
             guardar(res, QUOTES["slug"], DATASET / "Quotes" / s["carpeta"], s["id"])
 
 
-def followers(dry: bool):
+def ya_en_redes() -> set[str]:
+    csv.field_size_limit(sys.maxsize)
+    vistos = set()
+    for f in (DATASET / "Redes").glob("*.csv"):
+        with open(f, encoding="utf-8-sig", newline="") as fh:
+            vistos |= {(r.get("target_username") or "").lower() for r in csv.DictReader(fh)}
+    return vistos
+
+
+def followers(dry: bool, forzar: bool = False):
     usuarios = [u.strip().lstrip("@") for u in (DATASET / "apify_users_list.txt").read_text().splitlines() if u.strip()]
-    lotes = [usuarios[i:i + LOTE] for i in range(0, len(usuarios), LOTE)]
-    hechos = {r["objetivo"] for r in csv.DictReader(open(LOG, encoding="utf-8"))
-              if r["actor"] == FOLLOWERS["actor"] and r["status"] == "SUCCEEDED"} if LOG.exists() else set()
-    pendientes = [(i, l) for i, l in enumerate(lotes) if f"lote_{i:03d}" not in hechos]
+    vistos = ya_en_redes()
+    nuevos = [u for u in usuarios if u.lower() not in vistos]
+    print(f"{len(usuarios) - len(nuevos)} cuentas ya están en Dataset/Redes/")
+    ronda = datetime.now(timezone.utc).strftime("%Y%m%d")
+    lotes = [nuevos[i:i + LOTE] for i in range(0, len(nuevos), LOTE)]
+    pendientes = [(f"lote_{ronda}_{i:03d}", l) for i, l in enumerate(lotes)]
+    usuarios = nuevos
     por_lote = lambda l: len(l) * (MAX_FOLLOWERS + MAX_FOLLOWINGS) * USD_POR_FILA * MARGEN
     tope = sum(por_lote(l) for _, l in pendientes)
     esperado = sum(len(l) for _, l in pendientes) * (MAX_FOLLOWERS + MAX_FOLLOWINGS) * USD_POR_FILA
@@ -115,12 +131,12 @@ def followers(dry: bool):
     if dry:
         return
     revisar_presupuesto(esperado)
-    for i, l in pendientes:
-        print(f"lote_{i:03d}: {len(l)} usuarios")
+    for nombre, l in pendientes:
+        print(f"{nombre}: {len(l)} usuarios")
         run_input = {"user_names": l, "maxFollowers": MAX_FOLLOWERS, "maxFollowings": MAX_FOLLOWINGS,
                      "getFollowers": True, "getFollowing": True}
         res = run_actor(FOLLOWERS["actor"], run_input, round(por_lote(l), 2), timeout_s=3600)
-        guardar(res, FOLLOWERS["slug"], DATASET / "Redes", f"lote_{i:03d}")
+        guardar(res, FOLLOWERS["slug"], DATASET / "Redes", nombre)
         time.sleep(2)
 
 
@@ -128,5 +144,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("fase", choices=["interacciones", "followers"])
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--forzar", action="store_true", help="ignorar runs.log.csv y volver a recolectar")
     a = ap.parse_args()
-    {"interacciones": interacciones, "followers": followers}[a.fase](a.dry_run)
+    {"interacciones": interacciones, "followers": followers}[a.fase](a.dry_run, a.forzar)
